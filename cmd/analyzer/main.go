@@ -37,17 +37,20 @@ func main() {
 	}
 
 	alerts, err := detection.DetectBruteForce(Events, 5)
-
-	for i, alert := range alerts {
-		fmt.Printf("[%d] ALERT: %s\n", i+1, alert.AlertType)
-		fmt.Printf("    Source IP: %s\n", alert.SourceIP)
-		fmt.Printf("    Attempts: %d\n", alert.Attempts)
-		fmt.Printf("    Message: %s\n\n", alert.Message)
-	}
-
 	if err != nil {
 		fmt.Printf("ERROR %v", err)
 		return
+	}
+
+	if len(alerts) == 0 {
+		fmt.Println("Tidak ditemukan aktivitas brute force")
+	} else {
+		for i, alert := range alerts {
+			fmt.Printf("[%d] ALERT: %s\n", i+1, alert.AlertType)
+			fmt.Printf("    Source IP: %s\n", alert.SourceIP)
+			fmt.Printf("    Attempts: %d\n", alert.Attempts)
+			fmt.Printf("    Message: %s\n\n", alert.Message)
+		}
 	}
 
 	fmt.Printf("jumlah logs %d\n", jumlah)
