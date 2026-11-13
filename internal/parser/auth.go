@@ -51,7 +51,7 @@ func ParseAuthLog(line string) (models.AuthEvent, error) {
 	Auth := models.AuthEvent{
 		Username:  Username,
 		EventType: Event,
-		SourceIP:  lines[5],
+		SourceIP:  lines[6],
 		RawLog:    line,
 		Timestamp: tl,
 	}

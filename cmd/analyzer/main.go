@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/Luckxx24/mini-soc-log-analyzer/internal/collector"
 	"github.com/Luckxx24/mini-soc-log-analyzer/internal/detection"
@@ -36,7 +37,7 @@ func main() {
 		successCount++
 	}
 
-	alerts, err := detection.DetectBruteForce(Events, 5)
+	alerts, err := detection.DetectBruteForce(Events, 5, time.Second*15)
 	if err != nil {
 		fmt.Printf("ERROR %v", err)
 		return
