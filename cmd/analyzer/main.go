@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"time"
 
@@ -11,7 +12,13 @@ import (
 )
 
 func main() {
-	Texts, error := collector.ReadLines("testdata/auth.log")
+	Address := flag.String("file", "testdata/auth.log", "Path file log yang akan dibaca")
+
+	flag.Parse()
+
+	Angka := flag.Int("threshold", 5, "Jumlah percobaan login gagal sebelum alert")
+
+	Texts, error := collector.ReadLines(*Address)
 	var Events []models.AuthEvent
 
 	var successCount int
@@ -37,7 +44,11 @@ func main() {
 		successCount++
 	}
 
-	alerts, err := detection.DetectBruteForce(Events, 5, time.Second*15)
+	alerts, err := detection.DetectBruteForce(
+		Events,
+		*Angka,
+		60*time.Second,
+	)
 	if err != nil {
 		fmt.Printf("ERROR %v", err)
 		return

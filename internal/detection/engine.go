@@ -11,6 +11,10 @@ func DetectBruteForce(Events []models.AuthEvent, threshold int, window time.Dura
 	if threshold <= 0 {
 		return []models.Alert{}, errors.New("threshold tifak boleh kurang atau sama dengan 0")
 	}
+
+	if window <= 0 {
+		return []models.Alert{}, errors.New("window harus lebih besar dari 0")
+	}
 	var alerts []models.Alert
 	ipAttempt := make(map[string][]time.Time)
 
