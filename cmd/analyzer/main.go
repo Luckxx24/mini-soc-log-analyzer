@@ -14,9 +14,10 @@ import (
 func main() {
 	Address := flag.String("file", "testdata/auth.log", "Path file log yang akan dibaca")
 
-	flag.Parse()
-
 	Angka := flag.Int("threshold", 5, "Jumlah percobaan login gagal sebelum alert")
+
+	Waktu := flag.Int("window", 60, "masukan waktu dalam satuan detik")
+	flag.Parse()
 
 	Texts, error := collector.ReadLines(*Address)
 	var Events []models.AuthEvent
@@ -47,7 +48,7 @@ func main() {
 	alerts, err := detection.DetectBruteForce(
 		Events,
 		*Angka,
-		60*time.Second,
+		time.Duration(*Waktu)*time.Second,
 	)
 	if err != nil {
 		fmt.Printf("ERROR %v", err)
